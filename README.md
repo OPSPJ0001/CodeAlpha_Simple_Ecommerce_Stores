@@ -8,7 +8,7 @@
 - User registration & login (JWT)  
 - Order processing (creates orders & order items in DB)  
 - Minimal, clean UI with vanilla HTML/CSS/JS  
-- Ready for GitHub submission
+
 
 ## Quick Start
 
@@ -63,12 +63,9 @@ simple-ecommerce-express/
 └─ README.md
 ```
 
-## Notes for Submission
+## Notes 
 
 - This project keeps the cart on the client (simpler for demonstration).  
 - For production, consider server-side carts, payment integration, and validations.
-- You can deploy to Render, Railway, Fly.io, or any Node host.
-
----
 
 Built for the internship task by **codealpha.tech** guidelines.
