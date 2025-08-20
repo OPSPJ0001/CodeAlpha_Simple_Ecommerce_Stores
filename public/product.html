@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Product • ShopLite</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <header class="header container">
+  <a class="brand" href="/">ShopLite</a>
+  <nav class="nav">
+    <a href="/cart.html">Cart (<span id="cart-count">0</span>)</a>
+    <a href="/login.html" id="nav-login">Login</a>
+    <a href="/register.html" id="nav-register">Register</a>
+    <a href="#" id="nav-logout" style="display:none">Logout</a>
+  </nav>
+</header>
+
+  <main class="container">
+    <div id="product"></div>
+  </main>
+  <footer>© 2025 ShopLite</footer>
+  <script src="/shared.js"></script>
+  <script>
+    const params = new URLSearchParams(location.search);
+    const id = params.get('id');
+    fetch('/api/products/' + id).then(r => r.json()).then(p => {
+      if (p.error) { document.getElementById('product').innerHTML = '<p class="alert">Product not found.</p>'; return; }
+      document.getElementById('product').innerHTML = `
+        <div class="card" style="grid: none;">
+          <img src="${p.image_url}" alt="${p.name}" style="height:300px;"/>
+          <h1>${p.name}</h1>
+          <p>${p.description || ''}</p>
+          <div class="price">₹ ${p.price.toFixed(2)}</div>
+          <div style="display:flex; gap:8px;">
+            <button class="btn" onclick="addToCart(${p.id})">Add to cart</button>
+            <a href="/cart.html" class="btn secondary">Go to cart</a>
+          </div>
+        </div>
+      `;
+    });
+  </script>
+</body>
+</html>

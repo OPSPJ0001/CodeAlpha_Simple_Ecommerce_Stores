@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ShopLite – Products</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <header class="header container">
+  <a class="brand" href="/">ShopLite</a>
+  <nav class="nav">
+    <a href="/cart.html">Cart (<span id="cart-count">0</span>)</a>
+    <a href="/login.html" id="nav-login">Login</a>
+    <a href="/register.html" id="nav-register">Register</a>
+    <a href="#" id="nav-logout" style="display:none">Logout</a>
+  </nav>
+</header>
+
+  <main class="container">
+    <section class="hero">
+      <h1>Latest Products</h1>
+      <p class="small">A basic e-commerce demo for internship submission.</p>
+    </section>
+    <section id="product-grid" class="grid"></section>
+  </main>
+  <footer>© 2025 ShopLite • Built with Express + SQLite • Task by codealpha.tech</footer>
+  <script src="/shared.js"></script>
+  <script>
+    fetch('/api/products').then(r => r.json()).then(products => {
+      const grid = document.getElementById('product-grid');
+      grid.innerHTML = products.map(p => `
+        <article class="card">
+          <img src="${p.image_url}" alt="${p.name}"/>
+          <h3>${p.name}</h3>
+          <div class="price">₹ ${p.price.toFixed(2)}</div>
+          <div style="margin-top:auto; display:flex; gap:8px;">
+            <a class="btn secondary" href="/product.html?id=${p.id}">Details</a>
+            <button class="btn" onclick="addToCart(${p.id})">Add to cart</button>
+          </div>
+        </article>
+      `).join('');
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Login • ShopLite</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <header class="header container">
+  <a class="brand" href="/">ShopLite</a>
+  <nav class="nav">
+    <a href="/cart.html">Cart (<span id="cart-count">0</span>)</a>
+    <a href="/login.html" id="nav-login">Login</a>
+    <a href="/register.html" id="nav-register">Register</a>
+    <a href="#" id="nav-logout" style="display:none">Logout</a>
+  </nav>
+</header>
+
+  <main class="container">
+    <h1>Login</h1>
+    <input class="input" id="email" placeholder="Email" type="email" />
+    <input class="input" id="password" placeholder="Password" type="password" />
+    <button class="btn" id="login-btn">Login</button>
+    <div id="message"></div>
+    <p class="small">No account? <a href="/register.html">Register</a></p>
+  </main>
+  <footer>© 2025 ShopLite</footer>
+  <script src="/shared.js"></script>
+  <script>
+    document.getElementById('login-btn').onclick = async () => {
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      const resp = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      });
+      const data = await resp.json();
+      if (!resp.ok) { showMessage(data.error || 'Login failed', true); return; }
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('user', JSON.stringify(data.user));
+      location.href = '/';
+    };
+  </script>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Your Cart • ShopLite</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <header class="header container">
+  <a class="brand" href="/">ShopLite</a>
+  <nav class="nav">
+    <a href="/cart.html">Cart (<span id="cart-count">0</span>)</a>
+    <a href="/login.html" id="nav-login">Login</a>
+    <a href="/register.html" id="nav-register">Register</a>
+    <a href="#" id="nav-logout" style="display:none">Logout</a>
+  </nav>
+</header>
+
+  <main class="container">
+    <h1>Your Cart</h1>
+    <div id="cart-items"></div>
+    <div id="cart-total" style="margin-top:12px; font-weight:700;"></div>
+    <button class="btn" id="checkout-btn">Checkout</button>
+    <div id="message"></div>
+  </main>
+  <footer>© 2025 ShopLite</footer>
+  <script src="/shared.js"></script>
+  <script>
+    function render() {
+      const cart = getCart();
+      if (cart.length === 0) {
+        document.getElementById('cart-items').innerHTML = '<p class="small">Your cart is empty.</p>';
+        document.getElementById('cart-total').textContent = '';
+        return;
+      }
+      fetch('/api/products').then(r => r.json()).then(products => {
+        let total = 0;
+        const html = cart.map(item => {
+          const p = products.find(pp => pp.id === item.productId);
+          if (!p) return '';
+          const line = p.price * item.quantity;
+          total += line;
+          return `
+            <div class="card">
+              <div style="display:flex; gap:16px; align-items:center;">
+                <img src="${p.image_url}" style="width:120px; height:80px; object-fit:cover;"/>
+                <div style="flex:1;">
+                  <h3>${p.name}</h3>
+                  <div class="small">₹ ${p.price.toFixed(2)} × 
+                    <input class="input" style="width:80px; display:inline-block" type="number" min="1" value="${item.quantity}" 
+                      onchange="updateQty(${p.id}, this.value)"/>
+                  </div>
+                </div>
+                <button class="btn secondary" onclick="removeFromCart(${p.id})">Remove</button>
+              </div>
+            </div>
+          `;
+        }).join('');
+        document.getElementById('cart-items').innerHTML = html;
+        document.getElementById('cart-total').textContent = 'Total: ₹ ' + total.toFixed(2);
+      });
+    }
+    render();
+    document.getElementById('checkout-btn').onclick = async () => {
+      const token = localStorage.getItem('token');
+      if (!token) { showMessage('Please login to checkout.', true); return; }
+      const items = getCart();
+      const resp = await fetch('/api/orders', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+        body: JSON.stringify({ items })
+      });
+      const data = await resp.json();
+      if (!resp.ok) { showMessage(data.error || 'Checkout failed', true); return; }
+      clearCart();
+      render();
+      showMessage('Order placed! Order ID: ' + data.orderId + ' • Total ₹ ' + data.total.toFixed(2));
+    };
+  </script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+:root { --brand: #0f766e; --ink: #111827; --muted: #6b7280; --bg: #f9fafb; }
+*{ box-sizing:border-box }
+body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, 'Helvetica Neue', Arial, 'Noto Sans', 'Apple Color Emoji', 'Segoe UI Emoji'; margin:0; background:var(--bg); color:var(--ink); }
+.container { max-width: 1000px; margin: 0 auto; padding: 16px; }
+.header { display:flex; align-items:center; justify-content:space-between; padding: 12px 0; }
+.brand { font-weight:800; font-size: 1.25rem; color: var(--brand); text-decoration:none; }
+.nav a { margin-left: 12px; text-decoration:none; color: var(--ink); }
+.grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap:16px; }
+.card { background:white; border-radius: 16px; padding: 12px; box-shadow: 0 6px 20px rgba(0,0,0,0.06); display:flex; flex-direction:column; }
+.card img { width:100%; height: 180px; object-fit: cover; border-radius: 12px; }
+.card h3 { margin: 8px 0 4px; font-size: 1.1rem; }
+.price { font-weight:700; margin: 4px 0; }
+.btn { padding: 10px 14px; border: none; border-radius: 9999px; cursor: pointer; background: var(--brand); color: white; font-weight: 600; }
+.btn.secondary { background: #334155; }
+.input { width:100%; padding:10px 12px; border:1px solid #e5e7eb; border-radius:12px; margin: 6px 0 12px; }
+.hero { padding: 24px 0; }
+footer { margin: 40px 0 16px; color: var(--muted); text-align: center; font-size: 0.9rem; }
+.alert { padding: 12px; border-radius: 12px; background:#ecfccb; border:1px solid #d9f99d; margin: 12px 0; }
+.small { font-size: 0.9rem; color: var(--muted); }

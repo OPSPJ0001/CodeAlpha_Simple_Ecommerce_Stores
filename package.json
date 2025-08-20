@@ -1,0 +1,31 @@
+{
+  "name": "simple-ecommerce-express",
+  "version": "1.0.0",
+  "private": false,
+  "description": "Internship Task: Simple E-commerce Store (Express.js + SQLite + Vanilla JS)",
+  "main": "server.js",
+  "scripts": {
+    "dev": "node server.js",
+    "start": "NODE_ENV=production node server.js",
+    "db:reset": "node scripts/init_db.js"
+  },
+  "keywords": [
+    "express",
+    "sqlite",
+    "ecommerce",
+    "internship",
+    "codealpha"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "better-sqlite3": "^9.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2",
+    "morgan": "^1.10.0",
+    "uuid": "^9.0.1"
+  }
+}
